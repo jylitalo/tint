@@ -13,7 +13,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/yleisradio/tint"
+	"github.com/jylitalo/tint"
 )
 
 var faketime = time.Date(2009, time.November, 10, 23, 0, 0, 0, time.UTC)
@@ -99,7 +99,7 @@ func TestHandler(t *testing.T) {
 			F: func(l *slog.Logger) {
 				l.Info("test", "key", "val")
 			},
-			Want: `Nov 10 23:00:00.000 INFO tint/handler_test.go:99 test key=val`,
+			Want: `Nov 10 23:00:00.000 INFO tint/handler_test.go:100 test key=val`,
 		},
 		{
 			Opts: &tint.Options{
@@ -257,7 +257,7 @@ func TestHandler(t *testing.T) {
 			F: func(l *slog.Logger) {
 				l.Log(context.TODO(), slog.LevelDebug-1, "test")
 			},
-			Want: `Nov 10 23:00:00.000 DBG-1 test`,
+			Want: `Nov 10 23:00:00.000 DEBUG-1 test`,
 		},
 		{ // https://github.com/lmittmann/tint/issues/12
 			F: func(l *slog.Logger) {
@@ -314,7 +314,7 @@ func TestHandler(t *testing.T) {
 			F: func(l *slog.Logger) {
 				l.Info("test")
 			},
-			Want: `Nov 10 23:00:00.000 INF test`,
+			Want: `Nov 10 23:00:00.000 INFO test`,
 		},
 		{ // https://github.com/lmittmann/tint/issues/37
 			Opts: &tint.Options{
@@ -326,14 +326,14 @@ func TestHandler(t *testing.T) {
 			F: func(l *slog.Logger) {
 				l.Info("test")
 			},
-			Want: `Nov 10 23:00:00.000 INF tint/handler_test.go:327 test`,
+			Want: `Nov 10 23:00:00.000 INFO tint/handler_test.go:327 test`,
 		},
 		{ // https://github.com/lmittmann/tint/issues/44
 			F: func(l *slog.Logger) {
 				l = l.WithGroup("group")
 				l.Error("test", tint.Err(errTest))
 			},
-			Want: `Nov 10 23:00:00.000 ERR test group.err=fail`,
+			Want: `Nov 10 23:00:00.000 ERROR test group.err=fail`,
 		},
 		{ // https://github.com/lmittmann/tint/issues/55
 			F: func(l *slog.Logger) {
@@ -342,7 +342,7 @@ func TestHandler(t *testing.T) {
 					B *string
 				}{A: 123})
 			},
-			Want: `Nov 10 23:00:00.000 INF test key="{A:123 B:<nil>}"`,
+			Want: `Nov 10 23:00:00.000 INFO test key="{A:123 B:<nil>}"`,
 		},
 	}
 
